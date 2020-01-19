@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smiletravle/utility/my_style.dart';
+import 'package:smiletravle/utility/normal_dialog.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   // Field
   File file;
+  String dname, email, pass;
 
   // Method
 
@@ -22,6 +24,9 @@ class _RegisterState extends State<Register> {
         right: 50.0,
       ),
       child: TextField(
+        onChanged: (String string) {
+          dname = string.trim();
+        },
         style: TextStyle(color: MyStyle().textColor),
         decoration: InputDecoration(
           icon: Icon(
@@ -34,7 +39,7 @@ class _RegisterState extends State<Register> {
             fontFamily: 'Sarabun',
             color: Colors.blue.shade900,
           ),
-          helperText: 'Type your Name in blank',
+          helperText: 'Type your Firstname Lastname in blank',
           helperStyle: TextStyle(color: color),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
@@ -54,6 +59,9 @@ class _RegisterState extends State<Register> {
         right: 50.0,
       ),
       child: TextField(
+        onChanged: (String string) {
+          email = string.trim();
+        },
         style: TextStyle(color: MyStyle().textColor),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -87,6 +95,9 @@ class _RegisterState extends State<Register> {
         right: 50.0,
       ),
       child: TextField(
+        onChanged: (String string) {
+          pass = string.trim();
+        },
         style: TextStyle(color: MyStyle().textColor),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -169,7 +180,21 @@ class _RegisterState extends State<Register> {
   Widget registerButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
-      onPressed: () {},
+      onPressed: () {
+        if (file == null) {
+          nomalDialog(context, 'No image',
+              'Please click Camera or Gallery for choose Image.');
+        } else if (dname == null ||
+            dname.isEmpty ||
+            email == null ||
+            email.isEmpty ||
+            pass == null ||
+            pass.isEmpty) {
+          nomalDialog(context, 'Have space', 'Please fill every blank');
+        } else {
+          
+        }
+      },
     );
   }
 
