@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smiletravle/utility/my_style.dart';
@@ -12,7 +15,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   // Field
   File file;
-  String dname, email, pass;
+  String dname, email, pass, uid, url;
 
   // Method
 
@@ -99,7 +102,6 @@ class _RegisterState extends State<Register> {
           pass = string.trim();
         },
         style: TextStyle(color: MyStyle().textColor),
-        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           icon: Icon(
             Icons.lock_outline,
@@ -192,10 +194,45 @@ class _RegisterState extends State<Register> {
             pass.isEmpty) {
           nomalDialog(context, 'Have space', 'Please fill every blank');
         } else {
-          
+          registerFirebase();
         }
       },
     );
+  }
+
+  Future<void> registerFirebase() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .createUserWithEmailAndPassword(email: email, password: pass)
+        .then((response) {
+      print('Register Success');
+      findUID();
+    }).catchError((response) {
+      print('Register Unsuccess');
+      String title = response.code;
+      String message = response.message;
+      nomalDialog(context, title, message);
+    });
+  }
+
+  Future<void> findUID() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    uid = firebaseUser.uid;
+    print('uid ===>>> $uid');
+    uploadPicture();
+  }
+
+  Future<void> uploadPicture() async{
+    //Random random = Random();
+    //int i = random.nextInt(9999999);
+    String namePic = '$uid.jpg';
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    StorageReference storageReference = firebaseStorage.ref().child('Avatar/$namePic');
+    StorageUploadTask storageUploadTask = storageReference.putFile(file);
+    url = await (await storageUploadTask.onComplete).ref.getDownloadURL();
+    print('url ===>>> $url');
+
   }
 
   @override
