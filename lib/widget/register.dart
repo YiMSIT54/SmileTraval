@@ -18,19 +18,20 @@ class _RegisterState extends State<Register> {
         left: 50.0,
         right: 50.0,
       ),
-      child: TextField(style: TextStyle(color: MyStyle().textColor),
+      child: TextField(
+        style: TextStyle(color: MyStyle().textColor),
         decoration: InputDecoration(
           icon: Icon(
             Icons.account_circle,
-            color: color,
+            color: MyStyle().textColor,
             size: 36.0,
           ),
           labelText: 'Display Name',
           labelStyle: TextStyle(
             fontFamily: 'Sarabun',
-            color: color,
+            color: Colors.blue.shade900,
           ),
-          helperText: 'Type Your Name In Blank',
+          helperText: 'Type your Name in blank',
           helperStyle: TextStyle(color: color),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
@@ -50,18 +51,54 @@ class _RegisterState extends State<Register> {
         right: 50.0,
       ),
       child: TextField(
+        style: TextStyle(color: MyStyle().textColor),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           icon: Icon(
             Icons.mail_outline,
-            color: color,
+            color: MyStyle().textColor,
             size: 36.0,
           ),
           labelText: 'E-Mail',
           labelStyle: TextStyle(
             fontFamily: 'Sarabun',
-            color: color,
+            color: Colors.blue.shade900,
           ),
+          helperText: 'Type your E-Mail in blank',
+          helperStyle: TextStyle(color: color),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: MyStyle().textColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget passForm() {
+    Color color = Colors.purple;
+    return Container(
+      margin: EdgeInsets.only(
+        left: 50.0,
+        right: 50.0,
+      ),
+      child: TextField(
+        style: TextStyle(color: MyStyle().textColor),
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.lock_outline,
+            color: MyStyle().textColor,
+            size: 36.0,
+          ),
+          labelText: 'Password',
+          labelStyle: TextStyle(
+            fontFamily: 'Sarabun',
+            color: Colors.blue.shade900,
+          ),
+          helperText: 'Type your Password in blank',
+          helperStyle: TextStyle(color: color),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: MyStyle().textColor,
@@ -132,6 +169,7 @@ class _RegisterState extends State<Register> {
           ),
           nameForm(),
           emailForm(),
+          passForm(),
         ],
       ),
     );
