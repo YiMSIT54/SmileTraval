@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'dart:math';
+//import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -223,16 +224,31 @@ class _RegisterState extends State<Register> {
     uploadPicture();
   }
 
-  Future<void> uploadPicture() async{
+  Future<void> uploadPicture() async {
     //Random random = Random();
     //int i = random.nextInt(9999999);
     String namePic = '$uid.jpg';
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    StorageReference storageReference = firebaseStorage.ref().child('Avatar/$namePic');
+    StorageReference storageReference =
+        firebaseStorage.ref().child('Avatar/$namePic');
     StorageUploadTask storageUploadTask = storageReference.putFile(file);
     url = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     print('url ===>>> $url');
+    insertValueToFireStore();
+  }
 
+  Future<void> insertValueToFireStore() async {
+    Map<String, dynamic> map = Map();
+    map['Name'] = dname;
+    map['Uid'] = uid;
+    map['Url'] = url;
+    map['Pass'] = pass;
+
+    Firestore firestore = Firestore.instance;
+    CollectionReference collectionReference = firestore.collection('Travel');
+    await collectionReference.document().setData(map).then((response) {
+      Navigator.of(context).pop();
+    });
   }
 
   @override

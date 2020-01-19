@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smiletravle/utility/my_style.dart';
+import 'package:smiletravle/utility/normal_dialog.dart';
 import 'package:smiletravle/widget/register.dart';
+import 'package:smiletravle/widget/travel.dart';
 
 class Auth extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   // Field
+  String user = '', pass = '';
 
   // Method
   Widget singInButton() {
@@ -18,8 +22,28 @@ class _AuthState extends State<Auth> {
         'Sing In',
         style: TextStyle(color: Colors.white),
       ),
-      onPressed: () {},
+      onPressed: () {
+        checkAuthen();
+      },
     );
+  }
+
+  Future<void> checkAuthen() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .signInWithEmailAndPassword(
+          email: user,
+          password: pass,
+        )
+        .then((response) {
+          MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext buildContext)=>Travel());
+          Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route)=>false);
+        })
+        .catchError((response) {
+          String title = response.code;
+          String message = response.message;
+          nomalDialog(context, title, message);
+        });
   }
 
   Widget singUpButton() {
@@ -60,6 +84,9 @@ class _AuthState extends State<Auth> {
     return Container(
       width: 250.0,
       child: TextField(
+        onChanged: (String string) {
+          user = string.trim();
+        },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
@@ -82,6 +109,9 @@ class _AuthState extends State<Auth> {
     return Container(
       width: 250.0,
       child: TextField(
+        onChanged: (String string) {
+          pass = string.trim();
+        },
         obscureText: true,
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
