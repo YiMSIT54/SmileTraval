@@ -15,6 +15,23 @@ class _AuthState extends State<Auth> {
   String user = '', pass = '';
 
   // Method
+
+  @override
+  void initState() {
+    super.initState();
+    checkStatus();
+  }
+
+  Future<void> checkStatus() async{
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    if (firebaseUser != null) {
+      routeToTravel();
+    }
+
+  }
+
   Widget singInButton() {
     return RaisedButton(
       color: MyStyle().textColor,
@@ -36,14 +53,18 @@ class _AuthState extends State<Auth> {
           password: pass,
         )
         .then((response) {
-          MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext buildContext)=>Travel());
-          Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route)=>false);
+          routeToTravel();
         })
         .catchError((response) {
           String title = response.code;
           String message = response.message;
           nomalDialog(context, title, message);
         });
+  }
+
+  void routeToTravel() {
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext buildContext)=>Travel());
+    Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route)=>false);
   }
 
   Widget singUpButton() {
