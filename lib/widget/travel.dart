@@ -160,7 +160,7 @@ class _TravelState extends State<Travel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyStyle().mainColor,
+        backgroundColor: MyStyle().barColor,
         title: Text('Travel'),
       ),
       drawer: showDrawer(),
