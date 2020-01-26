@@ -16,10 +16,17 @@ class MyStyle {
 
   TextStyle h1WhiteText = TextStyle(
     fontFamily: 'Sarabun',
-    color: Colors.white,
-    fontStyle: FontStyle.italic,
+    color: Colors.blue.shade900,
+    //fontStyle: FontStyle.italic,
     fontWeight: FontWeight.bold,
     fontSize: 30.0,
+  );
+
+  TextStyle whiteText = TextStyle(
+    fontFamily: 'Sarabun',
+    color: Colors.blue.shade900,
+    //fontStyle: FontStyle.italic,
+    fontWeight: FontWeight.bold,
   );
 
   TextStyle h2Text = TextStyle(
