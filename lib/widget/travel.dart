@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:smiletravle/utility/my_style.dart';
+import 'package:smiletravle/utility/normal_dialog.dart';
 import 'package:smiletravle/widget/home_listview.dart';
 import 'package:smiletravle/widget/information.dart';
 
@@ -21,7 +23,31 @@ class _TravelState extends State<Travel> {
   @override
   void initState() {
     super.initState();
+    checkMessage();
     findUID();
+  }
+
+  Future<void> checkMessage() async {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+    String token = await firebaseMessaging.getToken();
+    print('Token ===>>> $token');
+
+    firebaseMessaging.configure(onLaunch: (Map<String, dynamic> map) async {
+      print('Map onLaunch ===>>> $map');
+    }, onMessage: (Map<String, dynamic> map) async {
+
+      var message = map['notification'];
+      String title = message['title'];
+      String detial = message['body'];
+      print('Map onMessage ===>>> $message');
+
+      nomalDialog(context, title, detial);
+
+    }, onResume: (Map<String, dynamic> map) async {
+      print('Map onResume ===>>> $map');
+    }, onBackgroundMessage: (Map<String, dynamic> map) async {
+      print('Map onBackgroundMessage ===>>> $map');
+    });
   }
 
   Future<void> findUID() async {
@@ -85,7 +111,10 @@ class _TravelState extends State<Travel> {
         '$name',
         style: MyStyle().h1WhiteText,
       ),
-      accountEmail: Text('$email', style: MyStyle().whiteText,),
+      accountEmail: Text(
+        '$email',
+        style: MyStyle().whiteText,
+      ),
     );
   }
 
