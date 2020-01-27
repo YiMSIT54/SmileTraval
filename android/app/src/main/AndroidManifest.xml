@@ -10,7 +10,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="smiletravle"
+        android:label="Smile Travle"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyAcyIOsxsC08vgIvBrEjGbjdClb9bKMsSo"/>
