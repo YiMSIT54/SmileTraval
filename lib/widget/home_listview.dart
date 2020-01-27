@@ -22,6 +22,13 @@ class _HomeListViewState extends State<HomeListView> {
   }
 
   Future<void> readAllDate() async {
+    if (travelModels.length != 0) {
+      //travelModels.removeRange(0, travelModels.length);
+      travelModels.removeWhere((TravelModel travelModel) {
+        return travelModel != null;
+      });
+    }
+
     Firestore firestore = Firestore.instance;
     CollectionReference collectionReference = firestore.collection('Travel');
     await collectionReference.snapshots().listen((response) {
@@ -59,7 +66,7 @@ class _HomeListViewState extends State<HomeListView> {
     return Text(string,
         style:
             //TextStyle(color: index % 2 == 0 ? Colors.white : Colors.white),
-            TextStyle(color: Colors.white));
+            TextStyle(color: Colors.blue));
   }
 
   Widget showText(int index) {
@@ -98,7 +105,8 @@ class _HomeListViewState extends State<HomeListView> {
         //return Text(travelModels[index].name);
         return Container(
           decoration: BoxDecoration(
-              color: index % 2 == 0 ? MyStyle().barColor : MyStyle().mainColor),
+              color:
+                  index % 2 == 0 ? Colors.grey.shade50 : Colors.grey.shade100),
           child: Row(
             children: <Widget>[
               showImage(index),
@@ -127,7 +135,12 @@ class _HomeListViewState extends State<HomeListView> {
                       MaterialPageRoute(builder: (BuildContext buildContext) {
                     return AddTravel();
                   });
-                  Navigator.of(context).push(materialPageRoute);
+                  Navigator.of(context)
+                      .push(materialPageRoute)
+                      .then((response) {
+                    print('You back ===>>> Home ListView');
+                    readAllDate();
+                  });
                 },
               ),
             ),
