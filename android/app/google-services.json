@@ -30,6 +30,13 @@
             {
               "client_id": "281205552970-9aci8jajb4h44nahtud0jhb0qvml1esr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "281205552970-cfbb71d8a188p0imbqo8l72jtkhdjiap.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.wattanachai.smiletravle"
+              }
             }
           ]
         }
