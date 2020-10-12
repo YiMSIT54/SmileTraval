@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:smiletravle/utility/my_style.dart';
 import 'package:smiletravle/utility/normal_dialog.dart';
